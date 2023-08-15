@@ -2,6 +2,8 @@ module Region ( Region, newR, foundR, linkR, tunelR, pathR, linksForR, connected
    where
 
 import City
+import Tunel
+import Link
 
 data Region = Reg [City] [Link] [Tunel]
 newR :: Region
