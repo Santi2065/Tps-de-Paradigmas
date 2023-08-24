@@ -1,10 +1,11 @@
-module Region ( Region, newR, foundR, citiesR, linksR, linkR, linksForR, connectedR, linkedR, delayR, availableCapacityForR, usedCapacityForR)
+module Region ( Region, newR, foundR, citiesR, tunelR, pathR , linksR, linkR, linksForR, connectedR, linkedR, delayR, availableCapacityForR, usedCapacityForR)
    where
 
 import City
 import Tunel
 import Link
 import Quality
+import qualified GHC.TypeLits as C
 
 data Region = Reg [City] [Link] [Tunel]
 
@@ -24,9 +25,11 @@ linksR (Reg _ ls _) = ls
 linkR :: Region -> City -> City -> Quality -> Region -- enlaza dos ciudades de la región con un enlace de la calidad indicada
 linkR (Reg cs ls ts) c1 c2 q = Reg cs (newL c1 c2 q:ls) ts
 
---tunelR :: Region -> [ City ] -> Region -- genera una comunicación entre dos ciudades distintas de la región
+--tunelR :: Region -> [ City ] -> Region -- genera una comunicación entre dos ciudades distintas de la región, buscando una ruta, mediante tuneles, que las conecte. por ejemplo A -> B, B->C , el tunel conecta a A con C.
 
---pathR :: Region -> City -> City -> [Link] -- indica el camino de enlaces que hay que recorrer para ir de una ciudad a otra
+
+--pathR :: Region -> City -> City -> [Link] -- indica el camino de enlaces que hay que recorrer para ir de una ciudad a otra. por ejemplo A -> B, B->C , el tunel conecta a A con C.
+
 
 linksForR :: Region -> City -> [Link] -- indica los enlaces que salen de una ciudad
 linksForR (Reg cs ls ts) c = filter (\l -> connectsL c l) ls
@@ -44,4 +47,4 @@ availableCapacityForR :: Region -> City -> City -> Int -- indica la capacidad di
 availableCapacityForR (Reg cs ls ts) c1 c2 = capacityL (head (filter (\l -> linksL c1 c2 l) ls))
 
 usedCapacityForR :: Region -> City -> City -> Int -- indica la capacidad utilizada entre dos ciudades
-usedCapacityForR (Reg cs ls ts) c1 c2 = length (filter (\t -> connectsT c1 c2 t) ts)
+usedCapacityForR (Reg cs ls ts) c1 c2 = length ts
