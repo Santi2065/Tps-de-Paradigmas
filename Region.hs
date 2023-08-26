@@ -5,7 +5,6 @@ import City
 import Tunel
 import Link
 import Quality
-import qualified GHC.TypeLits as C
 
 data Region = Reg [City] [Link] [Tunel]
 
