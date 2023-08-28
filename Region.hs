@@ -1,4 +1,4 @@
-module Region ( Region, newR, foundR, citiesR, tunelR, pathR , linksR, linkR, linksForR, connectedR, linkedR, delayR, availableCapacityForR, usedCapacityForR)
+module Region ( Region, newR, foundR, citiesR, tunelR, pathR , linksR, linkR, linksForR, connectedR, linkedR, delayR, availableCapacityForR, usedCapacityForR, actuallyLinkedR, nonFullLinks, hasCapacity, findLink, getLinksForTunnel, findPath, getNextCity)
    where
 
 import City
@@ -59,23 +59,27 @@ findPath region@(Reg cs ls _) c1 c2 visited path =
         (l:restLinks) ->
             if linksL c1 c2 l && availableCapacityForR region c1 c2 > 0
                 then reverse (l:path)
-                else exploreNextCities l restLinks
+                else exploreNextCities region l restLinks visited path c1 c2
 
+exploreNextCities :: Region -> Link -> [Link] -> [City] -> [Link] -> City -> City -> [Link]
+exploreNextCities _ _ [] _ _ _ _ = []
+exploreNextCities region l (nextLink:restLinks) visited path c1 c2
+    | nextCity `elem` visited = exploreNextCities region l restLinks visited path c1 c2
+    | otherwise =
+        let newPath = reverse path ++ [l]
+            foundPath = findPath region nextCity c2 (c1 : visited) newPath
+        in if null foundPath
+            then exploreNextCities region l restLinks visited path c1 c2
+            else foundPath
   where
-    exploreNextCities _ [] = []
-    exploreNextCities l (nextLink:restLinks)
-        | nextCity `elem` visited = exploreNextCities l restLinks
-        | otherwise =
-            let newPath = reverse path ++ [l]
-                foundPath = findPath region nextCity c2 (c1 : visited) newPath
-             in if null foundPath
-                    then exploreNextCities l restLinks
-                    else foundPath
-      where
-        nextCity = if nameC city1 == nameC c1 then city2 else city1
-          where
-            city1 = head [c | c <- cs, connectsL c nextLink]
-            city2 = head [c | c <- cs, connectsL c nextLink, c /= city1]
+    nextCity = getNextCity region l c1
+
+getNextCity :: Region -> Link -> City -> City
+getNextCity (Reg cs _ _) l c1 = if nameC city1 == nameC c1 then city2 else city1
+  where
+    city1 = head [c | c <- cs, connectsL c l]
+    city2 = head [c | c <- cs, connectsL c l, c /= city1]
+
 
 linksForR :: Region -> City -> [Link] -- indica los enlaces que salen de una ciudad
 linksForR (Reg cs ls ts) c = filter (\l -> connectsL c l) ls
