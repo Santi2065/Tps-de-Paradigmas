@@ -1,4 +1,4 @@
-module Region ( Region, newR, foundR, citiesR, tunelR, pathR , linksR, linkR, linksForR, connectedR, linkedR, delayR, availableCapacityForR, usedCapacityForR, actuallyLinkedR, nonFullLinks, hasCapacity, findLink, getLinksForTunnel, findPath, getNextCity)
+module Region ( Region, newR, foundR, citiesR, tunelR, pathR , linksR, linkR, linksForR, connectedR, linkedR, delayR, availableCapacityForR, usedCapacityForR, hasCapacity, findLink, getLinksForTunnel)
    where
 
 import City
@@ -90,23 +90,12 @@ connectedR (Reg cs ls ts) c1 c2 = any (\t -> connectsT c1 c2 t) ts
 linkedR :: Region -> City -> City -> Bool -- indica si estas dos ciudades estan enlazadas
 linkedR (Reg cs ls ts) c1 c2 = any (\l -> linksL c1 c2 l) ls
 
-actuallyLinkedR :: Region -> City -> City -> Bool
-actuallyLinkedR (Reg _ ls _) c1 c2 =
-    any (\link -> linksL c1 c2 link && availableCapacityForR (Reg [] [] []) c1 c2 > 0) ls
-
-nonFullLinks :: Region -> [Link]
-nonFullLinks (Reg cs ls ts) = filter (\l -> availableCapacityForR (Reg cs ls ts) (city1 l) (city2 l) > 0) ls
-  where
-    city1 l = head [c | c <- cs, connectsL c l]
-    city2 l = head [c | c <- cs, connectsL c l, c /= city1 l]
- -- deberia tomar la lista de los links de la region, chequear cada link contra los tuneles hechos si tiene espacio, y si no esta lleno pasarlo a una nueva lista
-
 delayR :: Region -> City -> City -> Float -- dadas dos ciudades conectadas, indica la demora
 delayR (Reg cs ls ts) c1 c2 = delayT (head (filter (\t -> connectsT c1 c2 t) ts))
 
 availableCapacityForR :: Region -> City -> City -> Int -- indicates the available capacity between two cities
 availableCapacityForR region@(Reg cs ls ts) city1 city2
-  | notElem city1 cs || notElem city2 cs = error "algunas de las ciudades no pertenece a la region"
+  | notElem city1 cs || notElem city2 cs = error "algunas de las ciudades no pertenecen a la region"
   | otherwise =
     let link = findLink ls city1 city2
      in capacityL link - usedCapacityForR region city1 city2
