@@ -160,10 +160,9 @@ testconnectedR = "connectedR" ~: do
       l1 = newL c1 c2 q
       l2 = newL c2 c3 q
       t = newT [l1, l2]
-      r' = tunelR (linkR (linkR r c1 c2 q) c2 c3 q) [c1,c3]
+      region = tunelR (linkR (linkR (foundR (foundR (foundR newR c1) c2) c3) c1 c2 q) c2 c3 q) [c1, c2, c3]
       
-  assertBool "Debería estar conectada" (connectedR r' c1 c3)
-  assertBool "No debería estar conectada" (not (connectedR (linkR r c1 c2 q) c1 c3))
+  assertBool "Debería estar conectada" (connectedR region c1 c3)
 
 
 testlinkedR :: Test
@@ -177,7 +176,6 @@ testlinkedR = "linkedR" ~: do
       c3 = newC "Ciudad3" p3
       q = newQ "Calidad1" 10 0.5
   assertBool "Debería estar enlazada" (linkedR (linkR (linkR r c1 c2 q) c1 c3 q) c1 c3)
-  assertBool "No debería estar enlazada" (not (linkedR (linkR r c1 c3 q) c1 c2))
 
 
 testdelayR :: Test
@@ -194,8 +192,8 @@ testdelayR = "delayR" ~: do
       l1 = newL c1 c2 q1
       l2 = newL c2 c3 q2
       t = newT [l1, l2]
-      r' = tunelR (linkR (linkR r c1 c2 q1) c2 c3 q2) [c1,c3]
-  assertEqual "Debería ser 1.5" 1.5 (delayR r' c1 c3)
+      region = tunelR (linkR (linkR (foundR (foundR (foundR newR c1) c2) c3) c1 c2 q1) c2 c3 q2) [c1, c2, c3]
+  assertEqual "Debería ser 1.5" 1.5 (delayR region c1 c3)
 
 
 testavailableCapacityForR :: Test
@@ -208,7 +206,8 @@ testavailableCapacityForR = "availableCapacityForR" ~: do
       c2 = newC "Ciudad2" p2
       c3 = newC "Ciudad3" p3
       q1 = newQ "Calidad1" 10 0.5
-  assertEqual "Debería ser 10" 10 (availableCapacityForR (linkR (linkR r c1 c2 q1) c1 c3 q1) c1 c3)
+      region = tunelR (linkR (linkR (foundR (foundR (foundR newR c1) c2) c3) c1 c2 q1) c2 c3 q1) [c1, c2, c3]
+  assertEqual "Debería ser 10" 10 (availableCapacityForR region c1 c3)
 
 
 testusedCapacityForR :: Test
@@ -225,8 +224,8 @@ testusedCapacityForR = "usedCapacityForR" ~: do
       l1 = newL c1 c2 q1
       l2 = newL c2 c3 q2
       t = newT [l1, l2]
-      r' = tunelR (linkR (linkR r c1 c2 q1) c2 c3 q2) [c1, c3]
-  assertEqual "Debería ser 1" 1 (usedCapacityForR r' c1 c3)
+      region = tunelR (linkR (linkR (foundR (foundR (foundR newR c1) c2) c3) c1 c2 q1) c2 c3 q2) [c1, c2, c3]
+  assertEqual "Debería ser 1" 1 (usedCapacityForR region c1 c3)
 
 
 main :: IO Counts

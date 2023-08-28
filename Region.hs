@@ -23,26 +23,59 @@ linksR (Reg _ ls _) = ls
 linkR :: Region -> City -> City -> Quality -> Region -- enlaza dos ciudades de la región con un enlace de la calidad indicada
 linkR (Reg cs ls ts) c1 c2 q = Reg cs (newL c1 c2 q:ls) ts
 
-tunelR :: Region -> [ City ] -> Region -- genera una comunicación entre dos ciudades distintas de la región, buscando una ruta, mediante tuneles, que las conecte. por ejemplo A -> B, B->C , el tunel conecta a A con C.
-tunelR (Reg cs ls ts) [c1, c2] = Reg cs ls (newT(pathR (Reg cs ls ts) c1 c2):ts) 
+findLink :: [Link] -> City -> City -> Link
+findLink [] city1 city2 = error "el link no existe"
+findLink (link:links) city1 city2
+  | linksL city1 city2 link = link
+  | otherwise = findLink links city1 city2
 
-pathR :: Region -> City -> City -> [Link] -- indica el camino de enlaces que hay que recorrer para ir de una ciudad a otra. por ejemplo A -> B, B->C , el tunel conecta a A con C.
-pathR (Reg cs ls _) c1 c2 | c1 == c2 = []
-                          | actuallylinkedR (Reg cs ls ts) c1 c2 = findPath nonFullLinks (Reg cs ls ts)
-                          | otherwise = error "Las ciudades nombradas no se encuentran enlazadas"
+getLinksForTunnel :: [Link] -> [City] -> [Link]
+getLinksForTunnel links (city:cities)
+  | length (city:cities) == 1 = []
+  | otherwise = findLink links city (head cities) : getLinksForTunnel links cities
 
-findPath :: [Link] -> [Link]
-findPath = -- codigo para encontrar los links que vayan de A a D cuando una lista es por ejemplo [[A,B,q],[B,C,q],[B,D,q]] (daria [[A,B,q],[B,D,q]])
--- deberia ser una lista ordenada? si tunelR genera un tunel entre dos ciudades con newT supongo que newT requiere una lista ordenada
+hasCapacity :: Region -> [City] -> Bool
+hasCapacity (Reg regionCities links tunnels) (city:cities)
+  | length (city:cities) == 1 = True
+  | availableCapacityForR (Reg regionCities links tunnels) city (head cities) > 0 =
+    hasCapacity (Reg regionCities links tunnels) cities
+  | otherwise = error "no hay mas capacidad"
 
---
--- hecho: pathR toma la region y la ciudad inicial y final que quiero llegar.
---        primero se tiene que fijar si la ciudad inicial y la ciudad final se encuentran en la region.
--- hecho: si ambas son la misma ciudad devuelve una lista vacia
--- hecho: se fija si ambas estan linkeadas con linkedR, ignorando los links llenos
---        findPath encuentra los links que utilizar en la nueva lista sin links llenos y los devuelve como lista de links
---        a cada link de la lista le gasta 1 de capacidad
---
+tunelR :: Region -> [City] -> Region -- genera una comunicación entre dos ciudades distintas de la región
+tunelR (Reg regionCities links tunnels) (city:cities) | length (city:cities) == 1 = error "necesitas al menos 2 ciudades"
+                                                      | hasCapacity (Reg regionCities links tunnels) (city:cities) = Reg regionCities links (tunnels ++ [newT (getLinksForTunnel links (city:cities))])
+                                                      | otherwise = error "no se pudo crear el tunel"
+
+pathR :: Region -> City -> City -> [Link]
+pathR region@(Reg cs ls ts) c1 c2
+  | c1 == c2 = []
+  | linkedR region c1 c2 = findPath region c1 c2 [] []
+  | otherwise = error "las ciudades no estan linkeadas"
+
+findPath :: Region -> City -> City -> [City] -> [Link] -> [Link]
+findPath region@(Reg cs ls _) c1 c2 visited path =
+    case linksForR region c1 of
+        [] -> []
+        (l:restLinks) ->
+            if linksL c1 c2 l && availableCapacityForR region c1 c2 > 0
+                then reverse (l:path)
+                else exploreNextCities l restLinks
+
+  where
+    exploreNextCities _ [] = []
+    exploreNextCities l (nextLink:restLinks)
+        | nextCity `elem` visited = exploreNextCities l restLinks
+        | otherwise =
+            let newPath = reverse path ++ [l]
+                foundPath = findPath region nextCity c2 (c1 : visited) newPath
+             in if null foundPath
+                    then exploreNextCities l restLinks
+                    else foundPath
+      where
+        nextCity = if nameC city1 == nameC c1 then city2 else city1
+          where
+            city1 = head [c | c <- cs, connectsL c nextLink]
+            city2 = head [c | c <- cs, connectsL c nextLink, c /= city1]
 
 linksForR :: Region -> City -> [Link] -- indica los enlaces que salen de una ciudad
 linksForR (Reg cs ls ts) c = filter (\l -> connectsL c l) ls

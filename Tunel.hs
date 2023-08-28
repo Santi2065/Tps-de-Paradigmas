@@ -7,9 +7,7 @@ import City
 data Tunel = Tun [Link] deriving (Eq, Show)
 
 newT :: [Link] -> Tunel
-newT ls
-   | length ls < 2 = error "El túnel debe tener al menos dos enlaces"
-   | otherwise = Tun ls
+newT ls = Tun ls
 
 connectsT :: City -> City -> Tunel -> Bool -- inidca si este tunel conceta estas dos ciudades distintas
 connectsT c1 c2 (Tun ls) = c1 /= c2 && (length (filter (\l -> connectsL c1 l) ls) == 1) && (length (filter (\l -> connectsL c2 l) ls) == 1)
