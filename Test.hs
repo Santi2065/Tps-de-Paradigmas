@@ -1,3 +1,5 @@
+-- debe descargar el modulo Test.HUnit para poder ejecutarlo corriendo el comando cabal install HUnit
+-- luego ejecutar el comando runhaskell Test.hs
 import Test.HUnit
 import City
 import Link
@@ -204,10 +206,9 @@ testavailableCapacityForR = "availableCapacityForR" ~: do
       p3 = newP 5 6
       c1 = newC "Ciudad1" p1
       c2 = newC "Ciudad2" p2
-      c3 = newC "Ciudad3" p3
       q1 = newQ "Calidad1" 10 0.5
-      region = tunelR (linkR (linkR (foundR (foundR (foundR newR c1) c2) c3) c1 c2 q1) c2 c3 q1) [c1, c2, c3]
-  assertEqual "Debería ser 10" 10 (availableCapacityForR region c1 c3)
+      region = tunelR ((linkR (foundR (foundR newR c1) c2) c1 c2 q1)) [c1, c2]
+  assertEqual "Debería ser 9" 9 (availableCapacityForR region c1 c2)
 
 
 testusedCapacityForR :: Test

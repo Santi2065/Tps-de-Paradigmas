@@ -104,8 +104,13 @@ nonFullLinks (Reg cs ls ts) = filter (\l -> availableCapacityForR (Reg cs ls ts)
 delayR :: Region -> City -> City -> Float -- dadas dos ciudades conectadas, indica la demora
 delayR (Reg cs ls ts) c1 c2 = delayT (head (filter (\t -> connectsT c1 c2 t) ts))
 
-availableCapacityForR :: Region -> City -> City -> Int -- indica la capacidad disponible entre dos ciudades
-availableCapacityForR (Reg cs ls ts) c1 c2 = capacityL (head (filter (\l -> linksL c1 c2 l) ls))
+availableCapacityForR :: Region -> City -> City -> Int -- indicates the available capacity between two cities
+availableCapacityForR region@(Reg cs ls ts) city1 city2
+  | notElem city1 cs || notElem city2 cs = error "algunas de las ciudades no pertenece a la region"
+  | otherwise =
+    let link = findLink ls city1 city2
+     in capacityL link - usedCapacityForR region city1 city2
+
 
 usedCapacityForR :: Region -> City -> City -> Int -- indica la capacidad utilizada entre dos ciudades
 usedCapacityForR (Reg cs ls ts) c1 c2 = length ts
