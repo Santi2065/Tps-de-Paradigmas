@@ -58,7 +58,10 @@ actuallyLinkedR (Reg _ ls _) c1 c2 =
     any (\link -> linksL c1 c2 link && availableCapacityForR (Reg [] [] []) c1 c2 > 0) ls
 
 nonFullLinks :: Region -> [Link]
-nonFullLinks (Reg cs ls ts) = (\link -> availableCapacityForR (Reg cs ls ts)  c2 > 0) ls
+nonFullLinks (Reg cs ls ts) = filter (\l -> availableCapacityForR (Reg cs ls ts) (city1 l) (city2 l) > 0) ls
+  where
+    city1 l = head [c | c <- cs, connectsL c l]
+    city2 l = head [c | c <- cs, connectsL c l, c /= city1 l]
  -- deberia tomar la lista de los links de la region, chequear cada link contra los tuneles hechos si tiene espacio, y si no esta lleno pasarlo a una nueva lista
 
 delayR :: Region -> City -> City -> Float -- dadas dos ciudades conectadas, indica la demora
