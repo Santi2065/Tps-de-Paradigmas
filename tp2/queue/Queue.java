@@ -14,9 +14,7 @@ public class Queue {
 
 	public Object take() {
 	  try {
-		  Object toBeDeletedValue = this.queue.get(0);
-		  this.queue.remove(0);
-		  return toBeDeletedValue;
+		  return this.queue.remove(0);
 	  }catch (RuntimeException e) {
 			  throw new Error("Queue is empty");
 	  }}
