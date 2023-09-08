@@ -1,32 +1,14 @@
 package queue.queue;
 
-import java.util.ArrayList;
-public class Queue {
-	private ArrayList<Object> queue = new ArrayList<>();
-  public boolean isEmpty() {
-		return this.queue.isEmpty();
-	}
+public abstract class Queue {
+	public Object head;
+	public Queue tail;
+	public int size;
+	public static final String queueIsEmpty = "Queue is empty";
 
-	public Queue add(Object object) {
-		this.queue.add(object);
-		return this;
-	}
-
-	public Object take() {
-	  try {
-		  return this.queue.remove(0);
-	  }catch (RuntimeException e) {
-			  throw new Error("Queue is empty");
-	  }}
-
-	public Object head(){
-	  try{
-    return this.queue.get(0);
-	}catch (RuntimeException e) {
-		throw new Error("Queue is empty");
-	}}
-
-	public int size() {
-		return this.queue.size();
-	}
+	public abstract boolean isEmpty();
+	public abstract Queue add(Object object);
+	public abstract Object take();
+	public abstract Object head();
+	public abstract int size();
 }
