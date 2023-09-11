@@ -4,48 +4,28 @@ import java.util.ArrayList;
 
 public class Queue {
 	public static final String queueIsEmpty = "Queue is empty";
+	private ArrayList objects = new ArrayList();
+	private ArrayList state = new ArrayList <Status> ();
 
-	private ArrayList queue = new ArrayList();
-	private ArrayList estado = new ArrayList <AbstractQueue> ();
-	private int size;
+	public Queue() { this.state.add(new Empty()); }
+	public boolean isEmpty(){ return getStatus().isEmpty(); }
+	private Status getStatus() { return (Status) this.state.get(this.state.size()-1); }
 
-	public Queue() {
-		this.estado.add(new EmptyQueue());
-		this.size = 0;
-	}
-	public boolean isEmpty(){
-		AbstractQueue element = (AbstractQueue) this.estado.get(this.size);
-		return element.isEmpty();
-	}
 	public Queue add(Object object){
-		this.queue.add(object);
-		this.estado.add(new NotEmptyQueue());
-		this.size++;
+		this.objects.add(object);
+		this.state.add(new NotEmpty());
 		return this;
 	}
-	public Object take(){
-		AbstractQueue element = (AbstractQueue) this.estado.get(this.size);
-		return element.take(this);
-	}
+	public Object take(){ return getStatus().take(this); }
 
-	public Object head(){
-		AbstractQueue element = (AbstractQueue) this.estado.get(this.size);
-		return element.head(this);
-	}
-
+	public Object head(){ return getStatus().head(this); }
 	public Object takeNotEmpty(){
-		Object element = this.queue.get(0);
-		this.queue.remove(0);
-		this.estado.remove(this.size);
-		this.size--;
+		Object element = this.objects.get(0);
+		this.objects.remove(0);
+		this.state.remove(this.state.size()-1);
 		return element;
 	}
 
-	public Object headNotEmpty(){
-		Object element = this.queue.get(0);
-		return element;
-	}
-	public int size(){
-		return this.size;
-	}
+	public Object headNotEmpty(){ return this.objects.get(0); }
+	public int size(){ return this.objects.size(); }
 }
