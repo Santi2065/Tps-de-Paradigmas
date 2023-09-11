@@ -1,28 +1,22 @@
 package queue.queue;
 
-public class EmptyQueue extends Queue {
+public class EmptyQueue extends AbstractQueue {
+
     public EmptyQueue() {
-        this.tail = this;
-        this.state = this;
-        this.tail.tailState = this;
     }
+
     public boolean isEmpty() {
         return true;
     }
 
-    public Queue add(Object object) {
-        return new NotEmptyQueue(object, this);
-    }
 
-    public Object take() {
+    public Object take(Queue queue) {
         throw new Error(Queue.queueIsEmpty);
     }
 
-    public Object head() {
+
+    public Object head(Queue queue) {
         throw new Error(Queue.queueIsEmpty);
     }
 
-    public int size() {
-        return 0;
-    }
 }
