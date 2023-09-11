@@ -1,10 +1,6 @@
 package queue.queue;
 
 public class EmptyQueue extends AbstractQueue {
-
-    public EmptyQueue() {
-    }
-
     public boolean isEmpty() {
         return true;
     }
