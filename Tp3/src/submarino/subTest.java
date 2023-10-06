@@ -42,49 +42,49 @@ public class subTest {
 	}
 	
 	@Test
-	public void Test03SubmarinoPuedeMoverseAbajoYArriba() {
+	public void Test04SubmarinoPuedeMoverseAbajoYArriba() {
 		subma.down(10);
 		subma.up(10);
 		assertEquals(pos_nula , subma.position());
 	}
 	
 	@Test
-	public void Test04SubmarinoPuedeGirarIzq() {
+	public void Test05SubmarinoPuedeGirarIzq() {
 		subma.turnLeft(45);
 		assertEquals(dir_izq45 , subma.direction());
 	}
 	
 	@Test
-	public void Test05SubmarinoPuedeGirarDer() {
+	public void Test06SubmarinoPuedeGirarDer() {
 		subma.turnRight(45);
 		assertEquals(dir_der45 , subma.direction());
 	}
 	
 	@Test
-	public void Test06SubmarinoPuedeMoverseAdelante() {
+	public void Test07SubmarinoPuedeMoverseAdelante() {
 		subma.moveFWD(10);
 		assertEquals(pos_adelante10 , subma.position());
 	}
 	
 	@Test
-	public void Test07SubmarinoNoPuedeMoverseAtras() {
+	public void Test08SubmarinoNoPuedeMoverseAtras() {
 		subma.moveFWD(-10);
 		assertEquals(pos_nula , subma.position());
 	}
 	
 	@Test
-	public void Test08icbmPuedeDespegar() {
+	public void Test09icbmPuedeDespegar() {
 		assertTrue(subma.LaunchICBM());
 	}
 	
 	@Test
-	public void Test09icbmNoPuedeDespegar10abajo() {
+	public void Test10icbmNoPuedeDespegar10abajo() {
 		subma.down(10);
 		assertFalse(subma.LaunchICBM);
 	}
 	
 	@Test
-	public void Test10icbmPuedeDespegarAlPrimerNivelSumergido() {
+	public void Test11icbmPuedeDespegarAlPrimerNivelSumergido() {
 		subma.down(1);
 		assertTrue(subma.LaunchICBM());
 	}
