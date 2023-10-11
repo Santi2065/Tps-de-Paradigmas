@@ -14,80 +14,79 @@ public class subTest {
 	private SubPosition pos_nula;
 	private SubPosition pos_bajo10;
 	private SubPosition pos_adelante10;
-	private SubDirection dir_izq45;
-	private SubDirection dir_der45;
+	private SubDirection dir_izq90;
+	private SubDirection dir_der90;
 	
 	
 	@BeforeEach
 	subma = new Submarino();
 	
 	@Test
-	public void Setup() {}
+	public void Test01Setup(){}
 	
 	@Test
-	public void Test01SubmarinoTienePosicionInicial() {
+	public void Test02SubmarinoTienePosicionInicial() {
 		assertEquals(pos_nula , subma.position());
 	}
 	
 	@Test
-	public void Test02SubmarinoPuedeMoverseAbajo() {
-		subma.down(10);
+	public void Test03SubmarinoPuedeMoverseAbajo() {
+		subma.command("d");
 		assertEquals(pos_bajo10 , subma.position());
 	}
 	
 	@Test
-	public void Test03SubmarinoNoPuedeMoverseArriba() {
-		subma.up(10);
+	public void Test04SubmarinoNoPuedeMoverseArriba() {
+		subma.command("u");
 		assertEquals(pos_nula , subma.position());
 	}
 	
 	@Test
-	public void Test04SubmarinoPuedeMoverseAbajoYArriba() {
-		subma.down(10);
-		subma.up(10);
+	public void Test05SubmarinoPuedeMoverseAbajoYArriba() {
+		subma.command("d");
+		subma.command("u");
 		assertEquals(pos_nula , subma.position());
 	}
 	
 	@Test
-	public void Test05SubmarinoPuedeGirarIzq() {
-		subma.turnLeft(45);
-		assertEquals(dir_izq45 , subma.direction());
+	public void Test06SubmarinoPuedeMoverseMismoComando() {
+		subma.command("du");
+		assertEquals(pos_nula , subma.position());
 	}
 	
 	@Test
-	public void Test06SubmarinoPuedeGirarDer() {
-		subma.turnRight(45);
-		assertEquals(dir_der45 , subma.direction());
+	public void Test07SubmarinoPuedeGirarIzq() {
+		subma.command("l");
+		assertEquals(dir_izq90 , subma.direction());
 	}
 	
 	@Test
-	public void Test07SubmarinoPuedeMoverseAdelante() {
-		subma.moveFWD(10);
+	public void Test08SubmarinoPuedeGirarDer() {
+		subma.command("r");
+		assertEquals(dir_der90 , subma.direction());
+	}
+	
+	@Test
+	public void Test09SubmarinoPuedeMoverseAdelante() {
+		subma.command("f");
 		assertEquals(pos_adelante10 , subma.position());
 	}
 	
 	@Test
-	public void Test08SubmarinoNoPuedeMoverseAtras() {
-		subma.moveFWD(-10);
-		assertEquals(pos_nula , subma.position());
+	public void Test10icbmPuedeDespegar() {
+		assertTrue(subma.command("m"));
 	}
 	
 	@Test
-	public void Test09icbmPuedeDespegar() {
-		assertTrue(subma.LaunchICBM());
+	public void Test11icbmNoPuedeDespegar2UnidadesAbajo() {
+		subma.command("dd"));
+		assertFalse(subma.command("m"));
 	}
 	
 	@Test
-	public void Test10icbmNoPuedeDespegar10abajo() {
-		subma.down(10);
-		assertFalse(subma.LaunchICBM);
+	public void Test12icbmPuedeDespegar1UnidadAbajo() {
+		subma.command("d");
+		assertTrue(subma.command("m"));
 	}
-	
-	@Test
-	public void Test11icbmPuedeDespegarAlPrimerNivelSumergido() {
-		subma.down(1);
-		assertTrue(subma.LaunchICBM());
-	}
-	
 	
 }
