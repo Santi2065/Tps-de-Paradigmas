@@ -9,9 +9,9 @@ import static org.junit.jupiter.api.Assertions.*;
 public class subTest {
 	
 	private Submarino subma;
-	private Coordenada pos_nula = new Coordenada(0,0,0);
-	private Coordenada pos_bajo10 = new Coordenada(0,0,-10);
-	private Coordenada pos_adelante10 = new Coordenada(10,0,0);
+	private Coordenada pos_nula = new Coordenada(0,0);
+	private Coordenada pos_bajo10 = new Coordenada(0,0);
+	private Coordenada pos_adelante10 = new Coordenada(10,0);
 	private String angulo_left = "Oeste";
 	private String angulo_right = "Este";
 	
@@ -25,32 +25,28 @@ public class subTest {
 	public void Test01SubmarinoTienePosicionInicial() {
 		assertEquals(pos_nula.x, subma.position().x);
 		assertEquals(pos_nula.y, subma.position().y);
-		assertEquals(pos_nula.z, subma.position().z);
 	}
 	
 	@Test
 	public void Test02SubmarinoPuedeMoverseAbajo() {
-		subma.down(10);
+		subma.down();
 		assertEquals(pos_bajo10.x, subma.position().x);
 		assertEquals(pos_bajo10.y, subma.position().y);
-		assertEquals(pos_bajo10.z, subma.position().z);
 	}
 	
 	@Test
 	public void Test03SubmarinoNoPuedeMoverseArriba() {
-		subma.up(10);
+		subma.up();
 		assertEquals(pos_nula.x, subma.position().x);
 		assertEquals(pos_nula.y, subma.position().y);
-		assertEquals(pos_nula.z, subma.position().z);
 	}
 	
 	@Test
 	public void Test04SubmarinoPuedeMoverseAbajoYArriba() {
-		subma.down(10);
-		subma.up(10);
+		subma.down();
+		subma.up();
 		assertEquals(pos_nula.x, subma.position().x);
 		assertEquals(pos_nula.y, subma.position().y);
-		assertEquals(pos_nula.z, subma.position().z);
 	}
 	
 	@Test
@@ -70,7 +66,7 @@ public class subTest {
 		subma.moveFWD(10);
 		assertEquals(pos_adelante10.x, subma.position().x);
 		assertEquals(pos_adelante10.y, subma.position().y);
-		assertEquals(pos_adelante10.z, subma.position().z);
+
 	}
 	
 	@Test
@@ -78,24 +74,23 @@ public class subTest {
 		subma.moveFWD(-10);
 		assertEquals(pos_nula.x, subma.position().x);
 		assertEquals(pos_nula.y, subma.position().y);
-		assertEquals(pos_nula.z, subma.position().z);
 	}
 	
 	@Test
 	public void Test09icbmPuedeDespegar() {
-		assertTrue(subma.LaunchICBM());
+		assertTrue(subma.launchICBM());
 	}
 	
 	@Test
 	public void Test10icbmNoPuedeDespegar10abajo() {
-		subma.down(10);
-		assertFalse(subma.LaunchICBM());
+		subma.down();
+		assertFalse(subma.launchICBM());
 	}
 	
 	@Test
 	public void Test11icbmPuedeDespegarAlPrimerNivelSumergido() {
-		subma.down(1);
-		assertTrue(subma.LaunchICBM());
+		subma.down();
+		assertTrue(subma.launchICBM());
 	}
 	
 	
