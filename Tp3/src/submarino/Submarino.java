@@ -43,7 +43,7 @@ public class Submarino {
 
 
     public boolean LaunchICBM() {
-        if (coordenada.z <= -10){
+        if (coordenada.z < 1){
             return false;
         }
         else{
