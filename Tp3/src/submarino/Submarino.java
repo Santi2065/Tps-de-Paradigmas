@@ -37,12 +37,17 @@ public class Submarino {
     public String direction() {return direction.getValue();}
 
     public void moveFWD(int i) {
-        direction.moveFWD(coordenada, i);
+        if (i > 0){direction.moveFWD(coordenada, i);}
     }
 
 
 
     public boolean LaunchICBM() {
+        if (coordenada.z <= -10){
+            return false;
+        }
+        else{
         return true;
+        }
     }
 }
