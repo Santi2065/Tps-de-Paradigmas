@@ -84,6 +84,7 @@ public class subTest {
 	@Test
 	public void Test10icbmNoPuedeDespegar10abajo() {
 		subma.down();
+		subma.down();
 		assertFalse(subma.launchICBM());
 	}
 	

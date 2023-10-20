@@ -79,7 +79,7 @@ public class Submarino {
 
     public static void main(String[] args) {
         Submarino submarino = new Submarino();
-        submarino.processCommands("rfflff");
+        submarino.processCommands("rffddduulffm");
         System.out.println(submarino.position().x);
         System.out.println(submarino.position().y);
         System.out.println(submarino.direction());
