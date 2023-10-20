@@ -10,8 +10,8 @@ public class subTest {
 	
 	private Submarino subma;
 	private Coordenada pos_nula = new Coordenada(0,0);
-	private Coordenada pos_bajo10 = new Coordenada(0,0);
-	private Coordenada pos_adelante10 = new Coordenada(10,0);
+	private String first_level = "First Level";
+	private Coordenada pos_adelante1 = new Coordenada(1,0);
 	private String angulo_left = "Oeste";
 	private String angulo_right = "Este";
 	
@@ -30,8 +30,7 @@ public class subTest {
 	@Test
 	public void Test02SubmarinoPuedeMoverseAbajo() {
 		subma.down();
-		assertEquals(pos_bajo10.x, subma.position().x);
-		assertEquals(pos_bajo10.y, subma.position().y);
+		assertEquals(first_level, subma.depth.get(subma.depth.size()-1).toString());
 	}
 	
 	@Test
@@ -63,18 +62,12 @@ public class subTest {
 	
 	@Test
 	public void Test07SubmarinoPuedeMoverseAdelante() {
-		subma.moveFWD(10);
-		assertEquals(pos_adelante10.x, subma.position().x);
-		assertEquals(pos_adelante10.y, subma.position().y);
+		subma.moveFWD();
+		assertEquals(pos_adelante1.x, subma.position().x);
+		assertEquals(pos_adelante1.y, subma.position().y);
 
 	}
-	
-	@Test
-	public void Test08SubmarinoNoPuedeMoverseAtras() {
-		subma.moveFWD(-10);
-		assertEquals(pos_nula.x, subma.position().x);
-		assertEquals(pos_nula.y, subma.position().y);
-	}
+
 	
 	@Test
 	public void Test09icbmPuedeDespegar() {

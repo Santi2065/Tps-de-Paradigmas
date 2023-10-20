@@ -31,7 +31,7 @@ public class Submarino {
                     this.turnRight();
                     break;
                 case 'f':
-                    this.moveFWD(1);
+                    this.moveFWD();
                     break;
                 case 'm':
                     if (!this.launchICBM()) {
@@ -65,10 +65,10 @@ public class Submarino {
         direction = direction.turnRight();
     }
 
-    public String direction() {return direction.getValue();}
+    public String direction() {return direction.toString();}
 
-    public void moveFWD(int i) {
-        if (i > 0){direction.moveFWD(coordenada, i);}
+    public void moveFWD() {
+        direction.moveFWD(coordenada);
     }
 
 
@@ -79,10 +79,10 @@ public class Submarino {
 
     public static void main(String[] args) {
         Submarino submarino = new Submarino();
-        submarino.processCommands("rffddduulffm");
-        System.out.println(submarino.position().x);
-        System.out.println(submarino.position().y);
+        submarino.processCommands("rffrffrffrff");
+        System.out.println(submarino.position().toString());
         System.out.println(submarino.direction());
+        System.out.println(submarino.depth.get(submarino.depth.size()-1).toString());
     }
 }
 

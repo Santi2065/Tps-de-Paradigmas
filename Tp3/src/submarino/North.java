@@ -1,14 +1,9 @@
 package submarino;
 
 public class North extends Direction{
-    public String value;
 
-    public North() {
-        this.value = "Norte";
-    }
-
-    public String getValue() {
-        return value;
+    public String toString() {
+        return "Norte";
     }
     public Direction turnLeft() {
         return new West();
@@ -20,7 +15,7 @@ public class North extends Direction{
 
 
 
-    public void moveFWD(Coordenada coordenada, int i) {
-        coordenada.x = coordenada.x + i;
+    public void moveFWD(Coordenada coordenada) {
+        coordenada.xForward();
     }
 }

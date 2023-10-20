@@ -1,24 +1,13 @@
 package submarino;
 
-public class Direction {
+public abstract class Direction {
 
-    public String value;
-    public String getValue() {
-        return this.value;
-    }
+    public abstract Direction turnLeft();
 
-    public Direction turnLeft() {
-        return null;
-    }
-
-    public Direction turnRight() {
-        return null;
-
-    }
+    public abstract Direction turnRight();
 
     
 
-    public void moveFWD(Coordenada coordenada, int i) {
-    }
+    public abstract void moveFWD(Coordenada coordenada);
 
 }

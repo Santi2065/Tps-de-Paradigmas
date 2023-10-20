@@ -8,8 +8,8 @@ public class FirstLevel extends Depth{
         return depth;
     }
 
-    public String getValue(){
-        return "FirstLevel";
+    public String toString(){
+        return "First Level";
     }
 
     public boolean launchICBM() {

@@ -10,7 +10,7 @@ public class Surface extends Depth {
             return depth;
         }
 
-        public String getValue(){
+        public String toString(){
             return "Surface";
         }
 

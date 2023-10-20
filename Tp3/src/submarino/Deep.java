@@ -9,7 +9,7 @@ public class Deep extends Depth{
         return depth;
     }
 
-    public String getValue(){
+    public String toString(){
         return "Deep";
     }
 
