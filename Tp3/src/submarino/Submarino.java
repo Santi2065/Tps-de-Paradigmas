@@ -46,7 +46,7 @@ public class Submarino {
     }
 
     public void down() {
-        depth.get(depth.size()-1).down(depth);
+        depth = depth.get(depth.size()-1).down(depth);
     }
 
     public Coordenada position() {
@@ -74,7 +74,7 @@ public class Submarino {
 
 
     public boolean launchICBM() {
-        return depth.get().launchICBM();
+        return depth.get(depth.size()-1).launchICBM();
     }
 
     public static void main(String[] args) {
@@ -82,7 +82,6 @@ public class Submarino {
         submarino.processCommands("rfflff");
         System.out.println(submarino.position().x);
         System.out.println(submarino.position().y);
-        System.out.println(submarino.depth.get().getValue());
         System.out.println(submarino.direction());
     }
 }

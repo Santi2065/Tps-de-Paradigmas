@@ -5,7 +5,7 @@ import java.util.ArrayList;
 public class Surface extends Depth {
     public void Surface() {}
 
-        public ArrayList down(ArrayList depth) {
+        public ArrayList<Depth> down(ArrayList depth) {
             depth.add(new FirstLevel());
             return depth;
         }
@@ -20,4 +20,3 @@ public class Surface extends Depth {
 
     }
 
-}

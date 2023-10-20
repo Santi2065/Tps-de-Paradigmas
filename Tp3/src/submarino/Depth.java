@@ -5,9 +5,9 @@ import java.util.ArrayList;
 
 public abstract class Depth {
 
-    public abstract ArrayList down(ArrayList<Depth> depth);
+    public abstract ArrayList<Depth> down(ArrayList<Depth> depth);
 
     public abstract boolean launchICBM();
 
     }
-}
+
