@@ -67,7 +67,6 @@ public class subTest {
 		assertEquals(pos_adelante1.y, subma.position().y);
 
 	}
-
 	
 	@Test
 	public void Test08icbmPuedeDespegar() {
@@ -75,7 +74,7 @@ public class subTest {
 	}
 	
 	@Test
-	public void Test09icbmNoPuedeDespegar10abajo() {
+	public void Test09icbmNoPuedeDespegar2Abajo() {
 		subma.down();
 		subma.down();
 		assertFalse(subma.launchICBM());
