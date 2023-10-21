@@ -6,6 +6,8 @@ import java.util.ArrayList;
 public class Submarino {
     public Coordenada coordenada;
 
+    public ArrayList<Commands> commands;
+
     public ArrayList<Depth> depth;
     public Direction direction;
     public Submarino() {

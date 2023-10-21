@@ -70,19 +70,19 @@ public class subTest {
 
 	
 	@Test
-	public void Test09icbmPuedeDespegar() {
+	public void Test08icbmPuedeDespegar() {
 		assertTrue(subma.launchICBM());
 	}
 	
 	@Test
-	public void Test10icbmNoPuedeDespegar10abajo() {
+	public void Test09icbmNoPuedeDespegar10abajo() {
 		subma.down();
 		subma.down();
 		assertFalse(subma.launchICBM());
 	}
 	
 	@Test
-	public void Test11icbmPuedeDespegarAlPrimerNivelSumergido() {
+	public void Test10icbmPuedeDespegarAlPrimerNivelSumergido() {
 		subma.down();
 		assertTrue(subma.launchICBM());
 	}
