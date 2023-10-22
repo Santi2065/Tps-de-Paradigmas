@@ -1,22 +1,28 @@
 
 package submarino;
 
+import submarino.Depth.Depth;
+import submarino.Depth.Surface;
+import submarino.Directions.Direction;
+import submarino.Directions.North;
+
 import java.util.ArrayList;
 
 public class Submarino {
     public Coordenada coordenada;
     public ArrayList<Depth> depth;
     public Direction direction;
+
     public Submarino() {
-        coordenada = new Coordenada(0,0);
-        depth = new ArrayList<Depth>();
-        depth.add(new Surface());
-        direction = new North();
+        this.coordenada = new Coordenada(0, 0);
+        this.depth = new ArrayList<Depth>();
+        this.depth.add(new Surface());
+        this.direction = new North();
     }
 
 
     public void down() {
-        depth = depth.get(depth.size()-1).down(depth);
+        depth = depth.get(depth.size() - 1).down(depth);
     }
 
     public Coordenada position() {
@@ -24,7 +30,7 @@ public class Submarino {
     }
 
     public void up() {
-        depth.remove(depth.size()-1);
+        depth = depth.get(depth.size() - 1).up(depth);
     }
 
     public void turnLeft() {
@@ -35,14 +41,16 @@ public class Submarino {
         direction = direction.turnRight();
     }
 
-    public String direction() {return direction.toString();}
+    public String direction() {
+        return direction.toString();
+    }
 
     public void moveFWD() {
         direction.moveFWD(coordenada);
     }
 
     public boolean launchICBM() {
-        return depth.get(depth.size()-1).launchICBM();
+        return depth.get(depth.size() - 1).launchICBM();
     }
 }
 

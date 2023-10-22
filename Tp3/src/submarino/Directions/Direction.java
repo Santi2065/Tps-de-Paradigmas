@@ -1,4 +1,6 @@
-package submarino;
+package submarino.Directions;
+
+import submarino.Coordenada;
 
 public abstract class Direction {
 

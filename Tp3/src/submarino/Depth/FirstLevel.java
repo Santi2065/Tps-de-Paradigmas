@@ -1,9 +1,9 @@
-package submarino;
+package submarino.Depth;
 
 import java.util.ArrayList;
 
-public class FirstLevel extends Depth{
-    public ArrayList<Depth> down(ArrayList depth) {
+public class FirstLevel extends Depth {
+    public ArrayList<Depth> down(ArrayList<Depth> depth) {
         depth.add(new Deep());
         return depth;
     }

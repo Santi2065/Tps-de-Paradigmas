@@ -28,9 +28,5 @@ public class Coordenada {
         return "(" + x + "," + y + ")";
     }
 
-    public boolean equals(Coordenada other) {
-        return (x == other.x && y == other.y);
-    }
-
 
 }

@@ -1,6 +1,8 @@
-package submarino;
+package submarino.Directions;
 
-public class East extends Direction{
+import submarino.Coordenada;
+
+public class East extends Direction {
 
     public String toString() {
         return "Este";
