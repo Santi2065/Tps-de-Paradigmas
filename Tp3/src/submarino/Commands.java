@@ -16,15 +16,4 @@ public abstract class Commands {
         return commandMap.getOrDefault(command, new NoOperation());
 
     }
-
-    public static void main(String[] args) {
-        Submarino submarino = new Submarino();
-        String commands = "rffrffrffrff";
-        for (char c : commands.toCharArray()) {
-            Commands.createMovement(String.valueOf(c)).execute(submarino);
-        }
-        System.out.println(submarino.position().toString());
-        System.out.println(submarino.direction());
-        System.out.println(submarino.depth.get(submarino.depth.size()-1).toString());
-    }
 }
