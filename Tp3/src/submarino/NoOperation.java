@@ -1,6 +1,4 @@
-package submarino.Commands;
-
-import submarino.Submarino;
+package submarino;
 
 public class NoOperation extends Commands {
     public void execute(Submarino submarino) {

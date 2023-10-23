@@ -1,11 +1,6 @@
 
 package submarino;
 
-import submarino.Depth.Depth;
-import submarino.Depth.Surface;
-import submarino.Directions.Direction;
-import submarino.Directions.North;
-
 import java.util.ArrayList;
 
 public class Submarino {

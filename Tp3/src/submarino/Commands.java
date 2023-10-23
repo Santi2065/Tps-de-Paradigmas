@@ -1,6 +1,4 @@
-package submarino.Commands;
-
-import submarino.Submarino;
+package submarino;
 
 import java.util.HashMap;
 import java.util.Map;

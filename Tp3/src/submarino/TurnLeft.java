@@ -1,6 +1,4 @@
-package submarino.Commands;
-
-import submarino.Submarino;
+package submarino;
 
 public class TurnLeft extends Commands {
 

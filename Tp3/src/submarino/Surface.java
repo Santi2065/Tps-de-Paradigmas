@@ -1,4 +1,4 @@
-package submarino.Depth;
+package submarino;
 
 import java.util.ArrayList;
 

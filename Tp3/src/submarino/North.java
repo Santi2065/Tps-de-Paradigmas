@@ -1,6 +1,4 @@
-package submarino.Directions;
-
-import submarino.Coordenada;
+package submarino;
 
 public class North extends Direction {
 
