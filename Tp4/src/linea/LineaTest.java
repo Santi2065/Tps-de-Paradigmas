@@ -1,5 +1,6 @@
 package linea;
 
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -9,13 +10,17 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class LineaTest {
 
+    @AfterEach
+    public void tearDown() {
+        Linea.gameBoard.clear();
+    }
+
     @Test
     public void testEmptyBoard() {
         Linea linea = new Linea(3,4, 'A');
-
         for (int i = 0; i < 4; i++) {
             for (int j = 0; j < 3; j++) {
-                assertTrue(linea.getBoard().get(j).get(i).toString() == " ");
+                assertTrue(linea.getBoard().get(i).get(j).toString() == "| |");
             }
         }
     }
@@ -23,7 +28,7 @@ public class LineaTest {
     @Test
     public void testShow() {
         Linea linea = new Linea(3,4, 'A');
-        String expected = "    \n    \n    \n";
+        String expected = "| || || |\n| || || |\n| || || |\n| || || |";
         assertEquals(expected, linea.show());
     }
 
@@ -59,7 +64,8 @@ public class LineaTest {
     @Test
     public void testPlayBlueAt() {
         Linea linea = new Linea(3,4, 'A');
-        linea.playBlueAt(0);
+        linea.playRedAt(1);
+        linea.playBlueAt(3);
         String expected = "    \n    \nO   \n";
         assertEquals(expected, linea.show());
     }

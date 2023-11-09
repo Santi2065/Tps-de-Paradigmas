@@ -6,9 +6,11 @@ public class RedTurn extends Turn{
         return new BlueTurn();
     }
 
-    public void RedTurn(){}
-
-    public void BlueTurn(){
-        System.out.println("It is not Blue's turn");
+    public Turn RedTurn(int column, Turn turn){
+        Linea.gameBoard.get(column - 1).remove(Linea.gameBoard.get(column - 1).size() - 1);
+        Linea.gameBoard.get(column - 1).add("|X|");
+        return new BlueTurn();
     }
+
+    public Turn BlueTurn(int column, Turn turn){throw new RuntimeException("It is not Blue's turn");}
 }

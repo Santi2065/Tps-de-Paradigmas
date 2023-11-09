@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class Mode {
+public abstract class Mode {
 
     public static ArrayList<Mode> modes = new ArrayList<Mode>(Arrays.asList(new AMode(), new BMode(), new CMode()));
 
@@ -14,4 +14,6 @@ public class Mode {
                 .toList();
         return chosen.get(0);
     }
+
+    public abstract boolean checkWin(Linea linea, int column);
 }
