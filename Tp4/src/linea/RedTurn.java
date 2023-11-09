@@ -1,5 +1,7 @@
 package linea;
 
+import java.util.stream.IntStream;
+
 public class RedTurn extends Turn{
 
     public Turn nextTurn(){
@@ -7,8 +9,13 @@ public class RedTurn extends Turn{
     }
 
     public Turn RedTurn(int column, Turn turn){
-        Linea.gameBoard.get(column - 1).remove(Linea.gameBoard.get(column - 1).size() - 1);
-        Linea.gameBoard.get(column - 1).add("|X|");
+        int row = IntStream.range(0, Linea.rows)
+         .filter(i -> Linea.gameBoard.get(column - 1).get(i)
+         .equals("| |")).reduce((first, second) -> second)
+         .orElseThrow(() -> new RuntimeException("Column is full"));
+
+        Linea.gameBoard.get(column - 1).set(row, "|X|");
+
         return new BlueTurn();
     }
 

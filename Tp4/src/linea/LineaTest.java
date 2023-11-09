@@ -4,9 +4,7 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class LineaTest {
 
@@ -20,7 +18,7 @@ public class LineaTest {
         Linea linea = new Linea(3,4, 'A');
         for (int i = 0; i < 4; i++) {
             for (int j = 0; j < 3; j++) {
-                assertTrue(linea.getBoard().get(i).get(j).toString() == "| |");
+                assertTrue(linea.getBoard().get(j).get(i).toString() == "| |");
             }
         }
     }
@@ -56,8 +54,11 @@ public class LineaTest {
     @Test
     public void testPlayRedAt() {
         Linea linea = new Linea(3,4, 'A');
-        linea.playRedAt(0);
-        String expected = "    \n    \nX   \n";
+        linea.playRedAt(1);
+        String expected =   "| || || |\n" +
+                            "| || || |\n" +
+                            "| || || |\n" +
+                            "|X|| || |";
         assertEquals(expected, linea.show());
     }
 
@@ -66,41 +67,129 @@ public class LineaTest {
         Linea linea = new Linea(3,4, 'A');
         linea.playRedAt(1);
         linea.playBlueAt(3);
-        String expected = "    \n    \nO   \n";
+        String expected =   "| || || |\n" +
+                            "| || || |\n" +
+                            "| || || |\n" +
+                            "|X|| ||O|";
         assertEquals(expected, linea.show());
     }
 
     @Test
     public void testPlayRedAtColumnFull() {
         Linea linea = new Linea(3,4, 'A');
-        linea.playRedAt(0);
-        linea.playRedAt(0);
-        linea.playRedAt(0);
-        linea.playRedAt(0);
-        linea.playRedAt(0);
-        String expected = "X   \nX   \nX   \n";
+        linea.playRedAt(1);
+        linea.playBlueAt(2);
+        linea.playRedAt(1);
+        linea.playBlueAt(2);
+        linea.playRedAt(1);
+        linea.playBlueAt(2);
+        linea.playRedAt(1);
+        linea.playBlueAt(2);
+        String expected = "|X||O|| |\n" +
+                          "|X||O|| |\n" +
+                          "|X||O|| |\n" +
+                          "|X||O|| |";
         assertEquals(expected, linea.show());
+        assertThrows(RuntimeException.class, () -> linea.playRedAt(1));
     }
 
     @Test
     public void testPlayBlueAtColumnFull() {
         Linea linea = new Linea(3,4, 'A');
-        linea.playBlueAt(0);
-        linea.playBlueAt(0);
-        linea.playBlueAt(0);
-        linea.playBlueAt(0);
-        linea.playBlueAt(0);
-        String expected = "O   \nO   \nO   \n";
+        linea.playRedAt(1);
+        linea.playBlueAt(2);
+        linea.playRedAt(1);
+        linea.playBlueAt(2);
+        linea.playRedAt(1);
+        linea.playBlueAt(2);
+        linea.playRedAt(1);
+        linea.playBlueAt(2);
+        String expected = "|X||O|| |\n" +
+                          "|X||O|| |\n" +
+                          "|X||O|| |\n" +
+                          "|X||O|| |";
         assertEquals(expected, linea.show());
+        assertThrows(RuntimeException.class, () -> linea.playBlueAt(2));
     }
 
     @Test
-    public void testRedWins() {
+    public void testRedWinsVertical() {
         Linea linea = new Linea(3,4, 'A');
-        linea.playRedAt(0);
         linea.playRedAt(1);
+        linea.playBlueAt(2);
+        linea.playRedAt(1);
+        linea.playBlueAt(2);
+        linea.playRedAt(1);
+        linea.playBlueAt(2);
+        linea.playRedAt(1);
+        assertTrue(linea.finished());
+    }
+
+    @Test
+    public void testBlueWinsHorizontal() {
+        Linea linea = new Linea(4,4, 'A');
+        linea.playRedAt(1);
+        linea.playBlueAt(1);
         linea.playRedAt(2);
+        linea.playBlueAt(2);
         linea.playRedAt(3);
+        linea.playBlueAt(3);
+        linea.playRedAt(2);
+        linea.playBlueAt(4);
+        linea.playRedAt(3);
+        linea.playBlueAt(4);
+        assertTrue(linea.finished());
+    }
+
+    @Test
+    public void testRedWinsDiagonal() {
+        Linea linea = new Linea(4,4, 'B');
+        linea.playRedAt(1);
+        linea.playBlueAt(2);
+        linea.playRedAt(2);
+        linea.playBlueAt(3);
+        linea.playRedAt(3);
+        linea.playBlueAt(4);
+        linea.playRedAt(3);
+        linea.playBlueAt(4);
+        linea.playRedAt(4);
+        linea.playBlueAt(1);
+        linea.playRedAt(4);
+        assertTrue(linea.finished());
+    }
+
+    @Test
+    public void testDraw() {
+        Linea linea = new Linea(4,4, 'A');
+        linea.playRedAt(1);
+        linea.playBlueAt(2);
+        linea.playRedAt(3);
+        linea.playBlueAt(4);
+        linea.playRedAt(2);
+        linea.playBlueAt(1);
+        linea.playRedAt(4);
+        linea.playBlueAt(3);
+        linea.playRedAt(1);
+        linea.playBlueAt(2);
+        linea.playRedAt(3);
+        linea.playBlueAt(4);
+        linea.playRedAt(2);
+        linea.playBlueAt(1);
+        linea.playRedAt(4);
+        linea.playBlueAt(3);
+        assertTrue(linea.finished());
+    }
+
+    @Test
+    public void testRedWinsVerticalCMode() {
+        Linea linea = new Linea(3,4, 'C');
+        linea.playRedAt(1);
+        linea.playBlueAt(2);
+        linea.playRedAt(1);
+        linea.playBlueAt(2);
+        linea.playRedAt(1);
+        linea.playBlueAt(2);
+        linea.playRedAt(1);
         assertTrue(linea.finished());
     }
 }

@@ -14,8 +14,8 @@ public class Linea{
     private boolean blueWon = false;
 
     private String winner = "";
-    private int columns;
-    private int rows;
+    public int columns;
+    public static int rows;
     private Mode modo;
 
     private Turn turn = new RedTurn();
@@ -24,10 +24,10 @@ public class Linea{
         this.columns = columns;
         this.rows = rows;
         this.modo = Mode.selectMode(modo);
-        IntStream.range(0, rows).forEach(i -> {
-            ArrayList<String> row = new ArrayList<String>();
-            IntStream.range(0, columns).forEach(j -> row.add("| |"));
-            gameBoard.add(row);
+        IntStream.range(0, columns).forEach(i -> {
+            ArrayList<String> column = new ArrayList<String>();
+            IntStream.range(0, rows).forEach(j -> column.add("| |"));
+            gameBoard.add(column);
         });
     }
 
@@ -36,16 +36,16 @@ public class Linea{
     }
 
     public String show() {
-        return gameBoard.stream()
-                .map(column -> column.stream()
+        return IntStream.range(0, rows)
+                .mapToObj(i -> IntStream.range(0, columns)
+                .mapToObj(j -> gameBoard.get(j).get(i))
                 .collect(Collectors.joining("")))
                 .collect(Collectors.joining("\n"));
     }
 
 
     public boolean finished(){
-
-        return false;
+        return redWon || blueWon|| completedBoard();
     }
 
     public void playRedAt(int column){
@@ -53,7 +53,7 @@ public class Linea{
             throw new RuntimeException(OUT_OF_RANGE);
         }
         turn = turn.RedTurn(column, turn);
-        redWon = modo.checkWin(this, column);
+        redWon = modo.checkWin(this, column,"|X|");
         if (redWon) {
             System.out.println("Red wins!");
             winner = "red";
@@ -70,7 +70,7 @@ public class Linea{
             throw new RuntimeException(OUT_OF_RANGE);
         }
         turn = turn.BlueTurn(columns, turn);
-        blueWon = modo.checkWin(this, columns);
+        blueWon = modo.checkWin(this, columns, "|O|");
         if (blueWon) {
             System.out.println("Blue wins!");
             winner = "blue";

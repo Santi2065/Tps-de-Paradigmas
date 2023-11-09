@@ -15,5 +15,5 @@ public abstract class Mode {
         return chosen.get(0);
     }
 
-    public abstract boolean checkWin(Linea linea, int column);
+    public abstract boolean checkWin(Linea linea, int column, String player);
 }
