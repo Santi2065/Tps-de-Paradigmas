@@ -4,10 +4,6 @@ import java.util.stream.IntStream;
 
 public class BlueTurn extends Turn{
 
-    public Turn nextTurn() {
-        return new RedTurn();
-    }
-
     public Turn RedTurn(int column, Turn turn) {
         throw new RuntimeException("It is not Red's turn");
     }

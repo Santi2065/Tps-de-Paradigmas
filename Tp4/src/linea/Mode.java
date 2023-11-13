@@ -6,7 +6,7 @@ import java.util.List;
 
 public abstract class Mode {
 
-    public static ArrayList<Mode> modes = new ArrayList<Mode>(Arrays.asList(new AMode(), new BMode(), new CMode()));
+    public static ArrayList<Mode> modes = new ArrayList<>(Arrays.asList(new AMode(), new BMode(), new CMode()));
 
     public static Mode selectMode(char mode){
         List<Mode> chosen = modes.stream()

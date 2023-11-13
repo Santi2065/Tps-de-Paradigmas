@@ -1,7 +1,6 @@
 package linea;
 
 import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -18,7 +17,7 @@ public class LineaTest {
         Linea linea = new Linea(3,4, 'A');
         for (int i = 0; i < 4; i++) {
             for (int j = 0; j < 3; j++) {
-                assertTrue(linea.getBoard().get(j).get(i).toString() == "| |");
+                assertEquals("| |", linea.getBoard().get(j).get(i));
             }
         }
     }
@@ -26,7 +25,10 @@ public class LineaTest {
     @Test
     public void testShow() {
         Linea linea = new Linea(3,4, 'A');
-        String expected = "| || || |\n| || || |\n| || || |\n| || || |";
+        String expected = "| || || |\n"+
+                          "| || || |\n"+
+                          "| || || |\n"+
+                          "| || || |";
         assertEquals(expected, linea.show());
     }
 
@@ -76,40 +78,37 @@ public class LineaTest {
 
     @Test
     public void testPlayRedAtColumnFull() {
-        Linea linea = new Linea(3,4, 'A');
+        Linea linea = new Linea(4,3, 'A');
         linea.playRedAt(1);
         linea.playBlueAt(2);
         linea.playRedAt(1);
         linea.playBlueAt(2);
         linea.playRedAt(1);
         linea.playBlueAt(2);
-        linea.playRedAt(1);
-        linea.playBlueAt(2);
-        String expected = "|X||O|| |\n" +
-                          "|X||O|| |\n" +
-                          "|X||O|| |\n" +
-                          "|X||O|| |";
+        String expected = "|X||O|| || |\n" +
+                          "|X||O|| || |\n" +
+                          "|X||O|| || |";
         assertEquals(expected, linea.show());
-        assertThrows(RuntimeException.class, () -> linea.playRedAt(1));
+        RuntimeException thrown = assertThrows(RuntimeException.class, () -> linea.playRedAt(1));
+        assertEquals("Column is full", thrown.getMessage());
     }
 
     @Test
     public void testPlayBlueAtColumnFull() {
-        Linea linea = new Linea(3,4, 'A');
+        Linea linea = new Linea(4,3, 'A');
         linea.playRedAt(1);
         linea.playBlueAt(2);
         linea.playRedAt(1);
         linea.playBlueAt(2);
         linea.playRedAt(1);
         linea.playBlueAt(2);
-        linea.playRedAt(1);
-        linea.playBlueAt(2);
-        String expected = "|X||O|| |\n" +
-                          "|X||O|| |\n" +
-                          "|X||O|| |\n" +
-                          "|X||O|| |";
+        linea.playRedAt(3);
+        String expected = "|X||O|| || |\n" +
+                          "|X||O|| || |\n" +
+                          "|X||O||X|| |";
         assertEquals(expected, linea.show());
-        assertThrows(RuntimeException.class, () -> linea.playBlueAt(2));
+        RuntimeException thrown = assertThrows(RuntimeException.class, () -> linea.playBlueAt(2));
+        assertEquals("Column is full", thrown.getMessage());
     }
 
     @Test

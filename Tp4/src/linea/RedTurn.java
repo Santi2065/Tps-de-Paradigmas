@@ -4,9 +4,6 @@ import java.util.stream.IntStream;
 
 public class RedTurn extends Turn{
 
-    public Turn nextTurn(){
-        return new BlueTurn();
-    }
 
     public Turn RedTurn(int column, Turn turn){
         int row = IntStream.range(0, Linea.rows)
